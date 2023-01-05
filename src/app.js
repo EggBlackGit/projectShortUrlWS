@@ -1,10 +1,15 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 var cors = require('cors')
 const PORT = process.env.PORT || 3000
 app.use(cors());
 app.use(express.json());
-// const router = express.Router();
+
+mongoose.connect('mongodb+srv://mongodb:0OWmJv2rsNPrEMdH@cluster0.6x4ncuy.mongodb.net/?retryWrites=true&w=majority'
+,{
+    useNewUrlParser:true,useUnifiedTopology:true
+})
 
 app.get('/echo',(req,res)=>{
     res.json({
