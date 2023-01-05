@@ -13,6 +13,10 @@ app.use(express.urlencoded({ extended: false }));
 mongoose.connect('mongodb+srv://mongodb:0OWmJv2rsNPrEMdH@cluster0.6x4ncuy.mongodb.net/?retryWrites=true&w=majority'
     , {
         useNewUrlParser: true, useUnifiedTopology: true
+    }).then(function(){
+        console.log("connect mongoDB successfully");
+    }).catch(function(){
+        console.log("connect mongoDB Fail");
     })
 
 app.get('/echo', (req, res) => {
@@ -23,6 +27,7 @@ app.get('/echo', (req, res) => {
 
 app.post("/shortUrl", async (req, res) => {
     const urlFull = req.body.urlFull;
+    console.log(urlFull);
     var searchFullUrl = await ShortUrl.findOne({
         fullUrl: urlFull
     })
