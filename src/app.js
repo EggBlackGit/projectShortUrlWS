@@ -12,6 +12,13 @@ app.get('/echo',(req,res)=>{
     })
 })
 
+app.post("/shortUrl",(req, res) =>{
+    const urlFull = req.body.urlFull;
+    res.json({
+        'urlFull':urlFull
+    })
+})
+
 
 app.listen(PORT, () => {
     //หากทำการ run server สำเร็จ ให้แสดงข้อความนี้ใน cmd หรือ terminal
