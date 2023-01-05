@@ -67,6 +67,22 @@ app.get('/:shortUrl', async (req, res) => {
     res.redirect(shortUrl.fullUrl);
 })
 
+app.get('/updateCount/:shortUrl', async (req, res) => {
+    console.log(req.params.shortUrl);
+    const shortUrl = await ShortUrl.findOne({
+        shortId: req.params.shortUrl
+    })
+
+    if (shortUrl == null) {
+        return res.sendStatus(404)
+    }
+
+    shortUrl.clicks++;
+    shortUrl.save();
+
+    res.send(shortUrl)
+})
+
 
 app.listen(PORT, () => {
     //หากทำการ run server สำเร็จ ให้แสดงข้อความนี้ใน cmd หรือ terminal
