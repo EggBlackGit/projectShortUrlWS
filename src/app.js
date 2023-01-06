@@ -29,7 +29,8 @@ app.post("/shortUrl", async (req, res) => {
     const urlFull = req.body.urlFull;
     console.log(urlFull);
     var searchFullUrl = await ShortUrl.findOne({
-        fullUrl: urlFull
+        fullUrl: urlFull,
+        shortUrl: urlFull
     })
 
     if (searchFullUrl == null) {
