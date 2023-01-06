@@ -13,9 +13,9 @@ app.use(express.urlencoded({ extended: false }));
 mongoose.connect('mongodb+srv://mongodb:0OWmJv2rsNPrEMdH@cluster0.6x4ncuy.mongodb.net/?retryWrites=true&w=majority'
     , {
         useNewUrlParser: true, useUnifiedTopology: true
-    }).then(function(){
+    }).then(function () {
         console.log("connect mongoDB successfully");
-    }).catch(function(){
+    }).catch(function () {
         console.log("connect mongoDB Fail");
     })
 
@@ -27,22 +27,23 @@ app.get('/echo', (req, res) => {
 
 app.post("/shortUrl", async (req, res) => {
     const urlFull = req.body.urlFull;
-    console.log(urlFull);
+    // console.log(urlFull);
     var searchFullUrl = await ShortUrl.findOne({
-        fullUrl: urlFull,
-        shortUrl: urlFull
+        fullUrl: urlFull
     })
+    // var searchFullUrl = await ShortUrl.findOne( { $or: [ { fullUrl: urlFull}, { shortUrl:urlFull } ] } )
+    // console.log(searchFullUrl);
 
     if (searchFullUrl == null) {
         var shortGenerate = shortId.generate();
         var shortUrl = req.protocol + "://" + req.headers.host + '/' + shortGenerate;
         const rs = await ShortUrl.create({ fullUrl: urlFull, shortUrl: shortUrl, shortId: shortGenerate })
-        console.log(rs);
+        // console.log(shortUrl);
         if (rs != null) {
             searchFullUrl = await ShortUrl.findOne({
                 fullUrl: urlFull
             })
-        }else{
+        } else {
             return res.sendStatus(404)
         }
     }
@@ -53,7 +54,7 @@ app.post("/shortUrl", async (req, res) => {
 })
 
 app.get('/:shortUrl', async (req, res) => {
-    console.log(req.params.shortUrl);
+    // console.log(req.params.shortUrl);
     const shortUrl = await ShortUrl.findOne({
         shortId: req.params.shortUrl
     })
@@ -69,7 +70,7 @@ app.get('/:shortUrl', async (req, res) => {
 })
 
 app.get('/updateCount/:shortUrl', async (req, res) => {
-    console.log(req.params.shortUrl);
+    // console.log(req.params.shortUrl);
     const shortUrl = await ShortUrl.findOne({
         shortId: req.params.shortUrl
     })
