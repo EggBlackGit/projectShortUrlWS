@@ -66,8 +66,20 @@ app.get('/:shortUrl', async (req, res) => {
     shortUrl.clicks++;
     shortUrl.save();
 
-    res.redirect(shortUrl.fullUrl);
+     // res.redirect(shortUrl.fullUrl);
+
+    let fullUrl = windowOpen(shortUrl.fullUrl);
+    res.redirect(fullUrl);
 })
+
+function windowOpen(url) {
+    let ex = '^http[s]?:\/\/';
+    if (!url.match(new RegExp(ex))) {
+        url = 'http://' + url;
+    }
+    return url;
+    
+}
 
 app.get('/updateCount/:shortUrl', async (req, res) => {
     // console.log(req.params.shortUrl);
