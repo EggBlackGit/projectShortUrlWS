@@ -27,18 +27,14 @@ app.get('/echo', (req, res) => {
 
 app.post("/shortUrl", async (req, res) => {
     const urlFull = req.body.urlFull;
-    // console.log(urlFull);
     var searchFullUrl = await ShortUrl.findOne({
         fullUrl: urlFull
     })
-    // var searchFullUrl = await ShortUrl.findOne( { $or: [ { fullUrl: urlFull}, { shortUrl:urlFull } ] } )
-    // console.log(searchFullUrl);
 
     if (searchFullUrl == null) {
         var shortGenerate = shortId.generate();
         var shortUrl = req.protocol + "://" + req.headers.host + '/' + shortGenerate;
         const rs = await ShortUrl.create({ fullUrl: urlFull, shortUrl: shortUrl, shortId: shortGenerate })
-        // console.log(shortUrl);
         if (rs != null) {
             searchFullUrl = await ShortUrl.findOne({
                 fullUrl: urlFull
@@ -54,7 +50,6 @@ app.post("/shortUrl", async (req, res) => {
 })
 
 app.get('/:shortUrl', async (req, res) => {
-    // console.log(req.params.shortUrl);
     const shortUrl = await ShortUrl.findOne({
         shortId: req.params.shortUrl
     })
@@ -82,7 +77,6 @@ function windowOpen(url) {
 }
 
 app.get('/updateCount/:shortUrl', async (req, res) => {
-    // console.log(req.params.shortUrl);
     const shortUrl = await ShortUrl.findOne({
         shortId: req.params.shortUrl
     })
